@@ -609,24 +609,24 @@ require('lazy').setup({
         },
       }
 
-      if vim.fn.has 'go' then
+      if vim.fn.executable 'go' then
         servers.gopls = {}
       end
 
-      if vim.fn.has 'templ' then
+      if vim.fn.executable 'templ' then
         servers.templ = {}
       end
 
-      if vim.fn.has 'python' then
+      if vim.fn.executable 'python' then
         servers.pyright = {}
       end
 
-      if vim.fn.has 'rust' then
+      if vim.fn.executable 'rust' then
         servers.rust_analyzer = {}
         servers.htmx = {}
       end
 
-      if vim.fn.has 'node' then
+      if vim.fn.executable 'node' then
         servers.tsserver = {}
         servers.html = {}
         servers.cssls = {}
@@ -634,11 +634,11 @@ require('lazy').setup({
         servers.dockerls = {}
       end
 
-      if vim.fn.has 'zig' then
+      if vim.fn.executable 'zig' then
         servers.zls = {}
       end
 
-      if vim.fn.has 'java' and vim.fn.has 'python' then
+      if vim.fn.executable 'java' and vim.fn.executable 'python' then
         servers.jdtls = {}
       end
 
@@ -855,7 +855,8 @@ require('lazy').setup({
           transparency = true,
         },
       }
-
+    end,
+    init = function()
       vim.cmd.colorscheme 'rose-pine-dawn'
     end,
   },
