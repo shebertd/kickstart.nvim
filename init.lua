@@ -581,28 +581,17 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        gopls = {},
-        pyright = {},
-        rust_analyzer = {},
+        -- gopls = {},
+        -- pyright = {},
+        -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        tsserver = {},
+        -- tsserver = {},
         --
-
-        zls = {},
-
-        templ = {},
-        html = {},
-        htmx = {},
-        cssls = {},
-        sqlls = {},
-        dockerls = {},
-
-        jdtls = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -619,6 +608,39 @@ require('lazy').setup({
           },
         },
       }
+
+      if vim.fn.has 'go' then
+        servers.gopls = {}
+      end
+
+      if vim.fn.has 'templ' then
+        servers.templ = {}
+      end
+
+      if vim.fn.has 'python' then
+        servers.pyright = {}
+      end
+
+      if vim.fn.has 'rust' then
+        servers.rust_analyzer = {}
+        servers.htmx = {}
+      end
+
+      if vim.fn.has 'node' then
+        servers.tsserver = {}
+        servers.html = {}
+        servers.cssls = {}
+        servers.sqlls = {}
+        servers.dockerls = {}
+      end
+
+      if vim.fn.has 'zig' then
+        servers.zls = {}
+      end
+
+      if vim.fn.has 'java' and vim.fn.has 'python' then
+        servers.jdtls = {}
+      end
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
@@ -671,7 +693,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, java = true }
         return {
           -- Desjardin PC is so slow, that your _blank_ is faster at code formatting.
           timeout_ms = 1000,
@@ -816,10 +838,25 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight-day'
 
       -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+      -- vim.cmd.hi 'Comment gui=none'
+    end,
+  },
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    config = function()
+      require('rose-pine').setup {
+        dim_inactive_windows = true,
+
+        styles = {
+          transparency = true,
+        },
+      }
+
+      vim.cmd.colorscheme 'rose-pine-dawn'
     end,
   },
 
@@ -908,7 +945,7 @@ require('lazy').setup({
   --
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
