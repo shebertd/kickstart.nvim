@@ -630,7 +630,6 @@ require('lazy').setup({
         servers.tsserver = {}
         servers.html = {}
         servers.cssls = {}
-        servers.sqlls = {}
         servers.dockerls = {}
       end
 
@@ -832,10 +831,6 @@ require('lazy').setup({
     config = function()
       require('rose-pine').setup {
         dim_inactive_windows = true,
-
-        styles = {
-          transparency = true,
-        },
       }
     end,
     init = function()
