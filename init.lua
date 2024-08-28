@@ -609,24 +609,24 @@ require('lazy').setup({
         },
       }
 
-      if vim.fn.executable 'go' then
+      if vim.fn.executable 'go' == 1 then
         servers.gopls = {}
       end
 
-      if vim.fn.executable 'templ' then
+      if vim.fn.executable 'templ' == 1 then
         servers.templ = {}
       end
 
-      if vim.fn.executable 'python' then
+      if vim.fn.executable 'python' == 1 and vim.fn.executable 'node' == 1 then
         servers.pyright = {}
       end
 
-      if vim.fn.executable 'rust' then
+      if vim.fn.executable 'rust' == 1 then
         servers.rust_analyzer = {}
         servers.htmx = {}
       end
 
-      if vim.fn.executable 'node' then
+      if vim.fn.executable 'node' == 1 then
         servers.tsserver = {}
         servers.html = {}
         servers.cssls = {}
@@ -634,11 +634,11 @@ require('lazy').setup({
         servers.dockerls = {}
       end
 
-      if vim.fn.executable 'zig' then
+      if vim.fn.executable 'zig' == 1 then
         servers.zls = {}
       end
 
-      if vim.fn.executable 'java' and vim.fn.executable 'python' then
+      if vim.fn.executable 'java' == 1 and vim.fn.executable 'python' == 1 then
         servers.jdtls = {}
       end
 
