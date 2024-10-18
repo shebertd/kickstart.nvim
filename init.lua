@@ -216,6 +216,26 @@ if not vim.uv.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+vim.filetype.add { extension = { templ = 'templ' } }
+local custom_format = function()
+  if vim.bo.filetype == 'templ' then
+    local bufnr = vim.api.nvim_get_current_buf()
+    local filename = vim.api.nvim_buf_get_name(bufnr)
+    local cmd = 'templ fmt ' .. vim.fn.shellescape(filename)
+
+    vim.fn.jobstart(cmd, {
+      on_exit = function()
+        -- Reload the buffer only if it's still the current buffer
+        if vim.api.nvim_get_current_buf() == bufnr then
+          vim.cmd 'e!'
+        end
+      end,
+    })
+  else
+    vim.lsp.buf.format()
+  end
+end
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -623,14 +643,22 @@ require('lazy').setup({
 
       if vim.fn.executable 'rust' == 1 then
         servers.rust_analyzer = {}
-        servers.htmx = {}
+        servers.htmx = {
+          filetypes = { 'html', 'templ' },
+        }
       end
 
       if vim.fn.executable 'node' == 1 then
         servers.tsserver = {}
-        servers.html = {}
+        servers.html = {
+          filetypes = { 'html', 'templ' },
+        }
         servers.cssls = {}
         servers.dockerls = {}
+        servers.tailwindcss = {
+          filetypes = { 'templ', 'css' },
+          init_options = { userLanguages = { templ = 'html' } },
+        }
       end
 
       if vim.fn.executable 'zig' == 1 then
@@ -701,6 +729,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        templ = { 'templ' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -826,15 +855,16 @@ require('lazy').setup({
     end,
   },
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    'loctvl842/monokai-pro.nvim',
+    name = 'monokai-pro',
+    priority = 1000,
     config = function()
-      require('rose-pine').setup {
+      require('monokai-pro').setup {
         dim_inactive_windows = true,
       }
     end,
     init = function()
-      vim.cmd.colorscheme 'rose-pine'
+      vim.cmd.colorscheme 'monokai-pro'
     end,
   },
 
