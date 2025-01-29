@@ -157,6 +157,10 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Tab of size 4
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -649,7 +653,7 @@ require('lazy').setup({
       end
 
       if vim.fn.executable 'node' == 1 then
-        servers.tsserver = {}
+        -- servers.tsserver = {}
         servers.html = {
           filetypes = { 'html', 'templ' },
         }
@@ -859,10 +863,7 @@ require('lazy').setup({
     name = 'monokai-pro',
     priority = 1000,
     config = function()
-      require('monokai-pro').setup {
-        dim_inactive_windows = true,
-        devicons = true,
-      }
+      require('monokai-pro').setup {}
     end,
     init = function()
       vim.cmd.colorscheme 'monokai-pro'
