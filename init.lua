@@ -653,7 +653,7 @@ require('lazy').setup({
       end
 
       if vim.fn.executable 'node' == 1 then
-        -- servers.tsserver = {}
+        servers.ts_ls = {}
         servers.html = {
           filetypes = { 'html', 'templ' },
         }
