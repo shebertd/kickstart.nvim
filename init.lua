@@ -654,6 +654,7 @@ require('lazy').setup({
 
       if vim.fn.executable 'node' == 1 then
         servers.ts_ls = {}
+        servers.eslint = {}
         servers.html = {
           filetypes = { 'html', 'templ' },
         }
