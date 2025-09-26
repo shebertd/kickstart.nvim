@@ -386,6 +386,16 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          file_ignore_patterns = {
+            '.git',
+          },
+        },
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -466,8 +476,6 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
-      require('java').setup()
-
       -- Brief aside: **What is LSP?**
       --
       -- LSP is an initialism you've probably heard, but might not understand what it is.
@@ -668,10 +676,7 @@ require('lazy').setup({
 
       if vim.fn.executable 'zig' == 1 then
         servers.zls = {}
-      end
-
-      if vim.fn.executable 'java' == 1 and vim.fn.executable 'python' == 1 then
-        servers.jdtls = {}
+        servers.clangd = {}
       end
 
       -- Ensure the servers and tools above are installed
@@ -725,7 +730,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true, java = true }
+        local disable_filetypes = { c = true, cpp = true }
         return {
           -- Desjardin PC is so slow, that your _blank_ is faster at code formatting.
           timeout_ms = 1000,
@@ -967,7 +972,6 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
-  { 'nvim-java/nvim-java' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
